@@ -349,6 +349,10 @@ class MainActivity : Activity() {
             }
             return
         }
+        startOverlayService()
+    }
+
+    private fun startOverlayService() {
         requestNotificationPermissionIfNeeded()
         val intent = Intent(this, PetOverlayService::class.java).setAction(PetOverlayService.ACTION_START)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) startForegroundService(intent) else startService(intent)
@@ -366,7 +370,12 @@ class MainActivity : Activity() {
 
     override fun onResume() {
         super.onResume()
-        pendingOverlayStart = false
+        // Quay lại từ màn hình xin quyền overlay: nếu đã được cấp thì bật luôn,
+        // không bắt người dùng bấm lại lần nữa.
+        if (pendingOverlayStart) {
+            pendingOverlayStart = false
+            if (Settings.canDrawOverlays(this)) startOverlayService()
+        }
         engine.setName(settings.petName)
         engine.setPersonality(settings.personality, System.currentTimeMillis())
         petView.look = PetLooks.byId(settings.lookId)

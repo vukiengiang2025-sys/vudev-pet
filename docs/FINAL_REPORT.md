@@ -36,11 +36,13 @@ Cập nhật: 2026-11-16 14:45. Trạng thái: mã nguồn + build + unit test h
 4. Chưa có widget/mini-game (M6).
 
 ## F. Bàn giao
-- Source: /home/vukgg04/vscode/vudev-pet (repo GitHub: vukiengiang2025-sys/vudev-pet).
-- APK: app/build/outputs/apk/debug/app-debug.apk; bản tải trực tiếp ở GitHub Release latest-apk (CI tạo).
+- Source: /home/vukgg04/vscode/vudev-pet; repo GitHub: https://github.com/vukiengiang2025-sys/vudev-pet
+- APK tải trực tiếp (CI tạo, mỗi lần push main): https://github.com/vukiengiang2025-sys/vudev-pet/releases/download/latest-apk/app-debug.apk
+- Artifact CI: vudev-pet-debug (tab Actions).
 - Build: export JAVA_HOME trỏ JDK 17, ANDROID_HOME trỏ SDK, chạy ./gradlew :petcore:test :app:assembleDebug.
 - Cài: adb install -r app-debug.apk; hoặc tải APK từ Release.
 - Kiểm thử trên Redmi: bật quyền Hiển thị trên ứng dụng khác, bật Tự khởi chạy và Không giới hạn pin, mở app bấm "Cho mình ra màn hình".
+- CI: workflow build-apk xanh (run 43825296152), artifact + release latest-apk đã tạo.
 
 ## G. Việc tiếp theo
 1. Có lại adb: cài APK, cấp quyền, kiểm tra overlay/tương tác/TTS, chụp ảnh, sửa lỗi phát hiện.
