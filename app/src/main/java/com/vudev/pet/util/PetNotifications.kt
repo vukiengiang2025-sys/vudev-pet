@@ -54,7 +54,13 @@ object PetNotifications {
             .setContentTitle(context.getString(R.string.notif_service_title))
             .setContentText(context.getString(R.string.notif_service_text))
             .setContentIntent(open)
-            .addAction(Notification.Action.Builder(null, context.getString(R.string.action_hide), hide).build())
+            .addAction(
+                Notification.Action.Builder(
+                    android.graphics.drawable.Icon.createWithResource(context, R.drawable.ic_stat_pet),
+                    context.getString(R.string.action_hide),
+                    hide,
+                ).build(),
+            )
             .setOngoing(true)
             .build()
     }
