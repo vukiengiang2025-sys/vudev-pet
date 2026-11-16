@@ -18,7 +18,7 @@ Cập nhật: 2026-11-16 14:55 (Asia/Ho_Chi_Minh).
 - Workflow build-apk: XANH (run 43826186610, commit 9cd5df7), artifact vudev-pet-debug.
 - Release tải trực tiếp: https://github.com/vukiengiang2025-sys/vudev-pet/releases/tag/latest-apk
 - APK mới nhất: https://github.com/vukiengiang2025-sys/vudev-pet/releases/download/latest-apk/app-debug.apk
-- APK release: 940.826 byte, SHA-256 c1400b35b0e258e5a44023d6719f2d6cf23ea2c5b0b41fb255ea9250b869d7bb
+- APK release: khoảng 940.8 KB (sha256 xem log CI hoặc tải tệp từ release)
 - Đã kiểm tra APK release bằng aapt: package com.vudev.pet, label VUDEV PET, minSdk 26, targetSdk 34, chỉ 4 quyền (SYSTEM_ALERT_WINDOW, POST_NOTIFICATIONS, FOREGROUND_SERVICE, FOREGROUND_SERVICE_SPECIAL_USE) — không có INTERNET, không Accessibility.
 
 ## Việc đang làm

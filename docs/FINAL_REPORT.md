@@ -38,7 +38,7 @@ Cập nhật: 2026-11-16 14:45. Trạng thái: mã nguồn + build + unit test h
 ## F. Bàn giao
 - Source: /home/vukgg04/vscode/vudev-pet; repo GitHub: https://github.com/vukiengiang2025-sys/vudev-pet
 - APK tải trực tiếp (CI tạo, mỗi lần push main): https://github.com/vukiengiang2025-sys/vudev-pet/releases/download/latest-apk/app-debug.apk
-- APK release đã kiểm tra: 940.826 byte, SHA-256 c1400b35b0e258e5a44023d6719f2d6cf23ea2c5b0b41fb255ea9250b869d7bb, package com.vudev.pet, minSdk 26, targetSdk 34, không INTERNET/không Accessibility.
+- APK release đã kiểm tra (aapt): khoảng 940.8 KB, package com.vudev.pet, minSdk 26, targetSdk 34, không INTERNET/không Accessibility.
 - Artifact CI: vudev-pet-debug (tab Actions).
 - Build: export JAVA_HOME trỏ JDK 17, ANDROID_HOME trỏ SDK, chạy ./gradlew :petcore:test :app:assembleDebug.
 - Cài: adb install -r app-debug.apk; hoặc tải APK từ Release.
