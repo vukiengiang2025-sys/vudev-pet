@@ -23,7 +23,7 @@ Cập nhật: 2026-11-16 14:45. Trạng thái: mã nguồn + build + unit test h
 ## C. Kiểm thử
 - Unit test petcore: 44 test, 0 lỗi.
 - Build: petcore, renderer, app đều biên dịch thành công; APK debug khoảng 0.96 MB.
-- Đã kiểm thử trên Redmi 15 5G (Android 16/HyperOS): mở app, renderer, TTS tiếng Việt (ready=true), overlay trên màn hình chính, chạm, vuốt ve, kéo thả, menu 8 mục, cho ăn, chơi, tắt/mở màn hình, lưu trạng thái JSON. Chi tiết: docs/DEVICE-TEST.md và docs/screenshots/.
+- Đã kiểm thử trên Redmi 15 5G (Android 16/HyperOS): mở app, renderer, TTS tiếng Việt (ready=true), overlay trên màn hình chính, chạm, vuốt ve, kéo thả, menu 8 mục, cho ăn, chơi, tắt/mở màn hình, lưu trạng thái JSON, tự phục hồi overlay sau force-stop, thông báo đói/buồn/bỏ bê, mini-game hứng bánh 45 giây + phần thưởng, 5 hình dáng. Chi tiết: docs/DEVICE-TEST.md và docs/screenshots/.
 - Chưa chạy: instrumentation test; persistence sau force-stop/khởi động lại; thông báo đói; đo pin dài hạn (điện thoại bị khoá màn hình nên dừng giữa chừng).
 
 ## D. Hiệu năng
@@ -35,7 +35,7 @@ Cập nhật: 2026-11-16 14:45. Trạng thái: mã nguồn + build + unit test h
 1. Trong lúc test phát hiện 5 lỗi nhỏ (menu/bong bóng quá trong suốt, thú chạy khi đang kéo, tự nói quá dày, mắt kẹt nhắm sau buồn ngủ, thiếu lời chào) — đã sửa trong commit polish; bản sửa chưa được cài lại do điện thoại khoá màn hình.
 2. App hiện đã bị gỡ trong lần cài lại; cần mở khoá điện thoại để cài bản polish cuối và chạy nốt test persistence/thông báo/pin.
 3. TTS tiếng Việt phụ thuộc gói giọng của máy; đã xử lý fallback hiện chữ; trên máy test giọng Việt hoạt động.
-4. Chưa có khôi phục overlay sau khởi động lại máy (M5); chưa có widget/mini-game (M6).
+4. Đã có tự phục hồi overlay khi mở lại app và BootReceiver gửi thông báo sau reboot (chưa test reboot thật); widget và mini-game đã có; widget chưa thêm lên màn hình chính để chụp.
 
 ## F. Bàn giao
 - Source: /home/vukgg04/vscode/vudev-pet; repo GitHub: https://github.com/vukiengiang2025-sys/vudev-pet
@@ -51,5 +51,5 @@ Cập nhật: 2026-11-16 14:45. Trạng thái: mã nguồn + build + unit test h
 ## G. Việc tiếp theo
 1. Có lại adb: cài APK, cấp quyền, kiểm tra overlay/tương tác/TTS, chụp ảnh, sửa lỗi phát hiện.
 2. M5: onboarding đầy đủ, thông báo đói/buồn, tự phục hồi overlay sau reboot, tối ưu HyperOS.
-3. M6: widget, mini-game 1 phút, thêm look/nhân vật.
+3. M6: widget (đã có provider), mini-game (đã chạy), 5 look; việc còn lại là thêm widget lên màn hình chính và kiểm tra trực quan.
 4. M7: stress test, đo pin/RAM, polish, chuẩn bị phát hành.

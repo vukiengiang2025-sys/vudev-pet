@@ -75,6 +75,7 @@ class PetOverlayService : Service() {
     private var petY = 0f
     private var targetX: Float? = null
     private var screenOn = true
+    private var isSuspended = false
     private var lastSaveAt = 0L
     private var lastAutoSayAt = 0L
     private val reminders = ReminderPolicy()
@@ -520,6 +521,7 @@ class PetOverlayService : Service() {
 
     private fun save() {
         repo.save(engine.snapshot(System.currentTimeMillis()))
+        com.vudev.pet.widget.PetWidgetProvider.refresh(this)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -529,9 +531,38 @@ class PetOverlayService : Service() {
                 stopSelf()
             }
             ACTION_CONFIG_CHANGED -> applyConfig()
+            ACTION_SUSPEND -> suspendOverlay()
+            ACTION_RESUME -> resumeOverlay()
             else -> Unit
         }
         return START_NOT_STICKY
+    }
+
+    /** Tạm ẩn thú khi mở mini-game để không che màn hình chơi; service vẫn foreground. */
+    private fun suspendOverlay() {
+        if (isSuspended) return
+        isSuspended = true
+        handler.removeCallbacksAndMessages(null)
+        save()
+        val view = petView
+        petView = null
+        if (view != null) runCatching { wm?.removeView(view) }
+        val b = bubble
+        bubble = null
+        if (b != null) runCatching { wm?.removeView(b) }
+        hideMenu()
+        Log.i(TAG, "overlay suspended for mini-game")
+    }
+
+    private fun resumeOverlay() {
+        if (!isSuspended) return
+        isSuspended = false
+        // Mini-game (hoặc màn hình khác) có thể vừa cộng thưởng và ghi đè trạng thái:
+        // nạp lại từ đĩa để không ghi đè phần thưởng bằng trạng thái cũ trong RAM.
+        repo.load()?.let { engine.restore(it, System.currentTimeMillis()) }
+        handler.post(ticker)
+        if (petView == null) createPetWindow()
+        Log.i(TAG, "overlay resumed after mini-game")
     }
 
     private fun applyConfig() {
@@ -591,6 +622,8 @@ class PetOverlayService : Service() {
         const val ACTION_START = "com.vudev.pet.action.START"
         const val ACTION_STOP = "com.vudev.pet.action.STOP"
         const val ACTION_CONFIG_CHANGED = "com.vudev.pet.action.CONFIG_CHANGED"
+        const val ACTION_SUSPEND = "com.vudev.pet.action.SUSPEND"
+        const val ACTION_RESUME = "com.vudev.pet.action.RESUME"
         private const val WALK_SPEED_DP = 55f
 
         @Volatile

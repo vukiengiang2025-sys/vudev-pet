@@ -102,4 +102,10 @@ Khi máy khởi động lại, VUDEV PET sẽ gửi một thông báo mời bạ
     <string name="notif_neglect_text">%1$s đã ở một mình lâu rồi, ghé thăm nhé.</string>
     <string name="notif_boot_title">Thú cưng đang chờ bạn</string>
     <string name="notif_boot_text">Mở VUDEV PET để đưa thú cưng trở lại màn hình.</string>
-</resources>
+    <string name="action_minigame">Chơi mini-game 1 phút</string>
+    <string name="minigame_score">Điểm</string>
+    <string name="minigame_time">Thời gian</string>
+    <string name="minigame_hint">Chạm hoặc kéo để thú hứng bánh rơi</string>
+    <string name="minigame_result_title">Chơi xong rồi!</string>
+    <string name="minigame_result_body">Bạn hứng được %1$d chiếc bánh. Thú cưng vui hơn rồi!</string>
+    <string name="minigame_ok">Về nhà</string></resources>

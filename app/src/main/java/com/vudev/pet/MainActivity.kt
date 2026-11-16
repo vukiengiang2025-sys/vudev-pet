@@ -169,6 +169,11 @@ class MainActivity : Activity() {
         actionsCard.addView(row2)
         root.addView(actionsCard, topMargin(dp(14)))
 
+        root.addView(Button(this).apply {
+            text = getString(R.string.action_minigame)
+            setOnClickListener { startActivity(Intent(this@MainActivity, MiniGameActivity::class.java)) }
+        }, topMargin(dp(10)))
+
         // Overlay.
         val overlayCard = card()
         overlayCard.addView(sectionTitle(getString(R.string.overlay_permission_title)))
@@ -445,6 +450,8 @@ class MainActivity : Activity() {
 
     override fun onResume() {
         super.onResume()
+        // Nạp lại trạng thái mới nhất (mini-game, service hoặc tiến trình khác có thể vừa ghi).
+        repo.load()?.let { engine.restore(it, System.currentTimeMillis()) }
         // Quay lại từ màn hình xin quyền overlay: nếu đã được cấp thì bật luôn,
         // không bắt người dùng bấm lại lần nữa.
         if (pendingOverlayStart) {
@@ -467,6 +474,7 @@ class MainActivity : Activity() {
         handler.removeCallbacks(ticker)
         handler.removeCallbacks(hideBubble)
         repo.save(engine.snapshot(System.currentTimeMillis()))
+        com.vudev.pet.widget.PetWidgetProvider.refresh(this)
         speech.stop()
     }
 

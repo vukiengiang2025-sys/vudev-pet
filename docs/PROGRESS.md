@@ -12,7 +12,8 @@ Cập nhật: 2026-11-16 14:55 (Asia/Ho_Chi_Minh).
 | M3 — Pet Brain | XONG | 44 unit test xanh; needs/emotion/behavior/personality/memory/time/engine |
 | M4 — Tương tác và nói | XONG + đã kiểm tra máy thật | TTS vi-VN ready=true, menu đủ 8 mục, cho ăn/chơi/vuốt/kéo hoạt động; APK ~0.96 MB |
 | M5 — Onboarding/thông báo/phục hồi | XONG phần lớn, đã kiểm tra máy | Màn hình kiểm tra quyền (overlay/thông báo/pin), nút miễn tối ưu pin, hướng dẫn HyperOS, nhắc đói/buồn/bỏ bê, tự phục hồi overlay sau force-stop; boot notification có code, chưa test khởi động lại thật |
-| M6–M7 | chưa làm | Widget/mini-game, stress test, phát hành |
+| M6 — Widget/mini-game/nhân vật | XONG phần lớn | Mini-game hứng bánh 45 giây, tạm ẩn/phục hồi overlay, widget provider đã đăng ký, 5 hình dáng; widget chưa thêm lên màn hình chính |
+| M7 — Stress test/phát hành | chưa làm | Đo pin dài hạn, kiểm tra Android 11-13, release |
 
 ## CI / GitHub
 - Repo: https://github.com/vukiengiang2025-sys/vudev-pet
@@ -23,7 +24,7 @@ Cập nhật: 2026-11-16 14:55 (Asia/Ho_Chi_Minh).
 - Đã kiểm tra APK release bằng aapt: package com.vudev.pet, label VUDEV PET, minSdk 26, targetSdk 34, chỉ 4 quyền (SYSTEM_ALERT_WINDOW, POST_NOTIFICATIONS, FOREGROUND_SERVICE, FOREGROUND_SERVICE_SPECIAL_USE) — không có INTERNET, không Accessibility.
 
 ## Việc đang làm
-- Đã kiểm tra M2/M4/M5 trên Redmi 15 5G (xem docs/DEVICE-TEST.md). Chuẩn bị M6: widget màn hình chính + mini-game 1 phút.
+- Đã kiểm tra M2/M4/M5/M6 trên Redmi 15 5G (xem docs/DEVICE-TEST.md). Chuẩn bị M7: stress test, đo pin, release.
 
 ## Việc tiếp theo
 1. Cài APK từ release, cấp quyền overlay + thông báo; kiểm tra thú hiện trên màn hình, tương tác, TTS.

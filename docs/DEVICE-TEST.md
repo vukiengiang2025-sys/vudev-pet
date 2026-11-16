@@ -47,10 +47,20 @@ APK: bản debug build từ commit "polish interaction" (trước khi cập nh�
 | Màn hình kiểm tra quyền | Có trong app: quyền overlay, thông báo, miễn tối ưu pin |
 
 Ghi chú: trên Android 16, appops SYSTEM_ALERT_WINDOW phải set theo UID (appops set --uid com.vudev.pet SYSTEM_ALERT_WINDOW allow) thì Settings.canDrawOverlays mới trả true; người dùng bật qua màn hình hệ thống không bị ảnh hưởng.
+## Kiểm thử bổ sung M6 (18:30-18:37)
+
+| Hạng mục | Kết quả |
+|---|---|
+| Mini-game hứng bánh | Mở từ app, chơi 45 giây, điểm hiển thị, kết thúc hiện hộp thoại Chơi xong rồi với số bánh hứng được; ảnh mini-game.png, mini-game-result.png |
+| Tạm ẩn overlay khi chơi | Log overlay suspended for mini-game; không còn thú nổi che màn hình chơi |
+| Phục hồi overlay sau game | Log overlay resumed after mini-game; cửa sổ thú trở lại |
+| Phần thưởng lưu đúng | Trạng thái sau game: last_play khác 0, total tăng, happiness tăng; đã sửa lỗi service ghi đè trạng thái cũ bằng cách nạp lại từ đĩa khi resume |
+| 5 hình dáng | Bông xanh, Bạc hà, Đào, Oải hương, Nắng (dữ liệu, không cần art) |
+| Widget | Provider com.vudev.pet.widget.PetWidgetProvider đã đăng ký với AppWidgetManager (provider id 204); chưa thêm lên màn hình chính để chụp do cần thao tác tay |
 ## Chưa kiểm tra được (blocker hiện tại)
 
 - Khôi phục sau khởi động lại máy thật: chưa test (shell không gửi được BOOT_COMPLETED; cần khởi động lại máy thật).
-- Đo pin nhiều giờ và máy Android 11-13: chưa test.
+- Đo pin nhiều giờ, widget trên màn hình chính (thao tác tay) và máy Android 11-13: chưa test.
 - Hộp thoại xác nhận cài adb của MIUI: đã xử lý; lần cài đặt sau hệ thống nhớ lựa chọn.
 
 ## Cách kiểm tra lại khi mở khoá máy

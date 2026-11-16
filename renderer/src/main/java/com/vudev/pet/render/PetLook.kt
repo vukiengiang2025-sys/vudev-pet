@@ -54,7 +54,31 @@ object PetLooks {
         mouth = 0xFF4A1F1A.toInt(),
     )
 
-    val ALL: List<PetLook> = listOf(BONG, MINT, PEACH)
+    val LAVENDER = PetLook(
+        id = "lavender",
+        label = "Oải hương",
+        bodyTop = 0xFFD8C2FF.toInt(),
+        bodyBottom = 0xFF9B72F2.toInt(),
+        rim = 0xFF7447C9.toInt(),
+        ear = 0xFFB79BF5.toInt(),
+        cheek = 0x66FF9AC8,
+        pupil = 0xFF2D1B4E.toInt(),
+        mouth = 0xFF2D1B4E.toInt(),
+    )
+
+    val SUNNY = PetLook(
+        id = "sunny",
+        label = "Nắng",
+        bodyTop = 0xFFFFE08A.toInt(),
+        bodyBottom = 0xFFFFB300.toInt(),
+        rim = 0xFFD18A00.toInt(),
+        ear = 0xFFFFCF5C.toInt(),
+        cheek = 0x66FF7A59,
+        pupil = 0xFF4A2B00.toInt(),
+        mouth = 0xFF4A2B00.toInt(),
+    )
+
+    val ALL: List<PetLook> = listOf(BONG, MINT, PEACH, LAVENDER, SUNNY)
 
     fun byId(id: String?): PetLook = ALL.firstOrNull { it.id == id } ?: BONG
 }
