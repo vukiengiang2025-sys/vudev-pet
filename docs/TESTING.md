@@ -9,7 +9,7 @@ Cập nhật: 2026-11-16.
     export ANDROID_HOME=$HOME/Android/Sdk
     ./gradlew :petcore:test
 
-Kết quả: **44 test, 0 lỗi**.
+Kết quả: **51 test, 0 lỗi**.
 
 Nhóm test:
 - NeedsTest: clamp, suy giảm khi thức/ngủ, tính cách làm lệch tốc độ, tương tác cho ăn/chơi/tắm/vuốt, mostUrgent.
@@ -18,6 +18,7 @@ Nhóm test:
 - BehaviorEngineTest: không lặp 3 lần, ngủ khi kiệt sức, đói thì xin ăn (TALK), bẩn thì xin tắm, thời lượng hợp lệ, không tự chọn hành vi chỉ dành cho người dùng.
 - EmotionEngineTest: hành vi thắng nhu cầu, giận khi đói+buồn, buồn ngủ, dỗi khi bị bỏ, hạnh phúc.
 - PetEngineTest: offline catch-up 2h/24h, đồng hồ lùi, ngủ hồi năng lượng, ngủ đủ thì dậy, cho ăn cập nhật ký ức, tương tác đánh thức, không lặp hành vi, snapshot, tên.
+- ReminderPolicyTest: nhắc đói một lần/cooldown, giờ yên tĩnh không nhắc, bỏ bê hơn 24 giờ, buồn, không nhắc khi khỏe, reset cooldown, không gửi buồn ngay sau bỏ bê.
 - MemoryAndSpeechTest: giờ kể từ tương tác, giới hạn recent, mọi ngữ cảnh có câu tiếng Việt cho mọi tính cách, cooldown/anti-repeat của SpeechSelector.
 
 ## Build

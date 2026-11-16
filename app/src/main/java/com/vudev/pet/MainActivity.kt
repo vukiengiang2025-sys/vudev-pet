@@ -3,12 +3,14 @@ package com.vudev.pet
 import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.net.Uri
 import android.os.Build
+import android.os.PowerManager
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -51,6 +53,7 @@ class MainActivity : Activity() {
     private lateinit var bubbleView: TextView
     private lateinit var overlayStatus: TextView
     private lateinit var overlayButton: Button
+    private lateinit var permissionStatus: TextView
     private lateinit var speech: PetSpeech
     private val selector = SpeechSelector()
     private val handler = Handler(Looper.getMainLooper())
@@ -187,6 +190,24 @@ class MainActivity : Activity() {
         overlayCard.addView(overlayButton, topMargin(dp(8)))
         root.addView(overlayCard, topMargin(dp(14)))
 
+        val healthCard = card()
+        healthCard.addView(sectionTitle(getString(R.string.health_check_title)))
+        permissionStatus = TextView(this).apply {
+            textSize = 13f
+            setTextColor(Color.parseColor("#5B6B8C"))
+            setPadding(0, dp(2), 0, dp(10))
+        }
+        healthCard.addView(permissionStatus)
+        healthCard.addView(Button(this).apply {
+            text = getString(R.string.btn_disable_battery_opt)
+            setOnClickListener { requestIgnoreBatteryOptimizations() }
+        })
+        healthCard.addView(Button(this).apply {
+            text = getString(R.string.hyperos_guide_button)
+            setOnClickListener { showHyperosGuide() }
+        })
+        root.addView(healthCard, topMargin(dp(14)))
+
         val settingsButton = Button(this).apply {
             text = getString(R.string.action_settings)
             setOnClickListener { startActivity(Intent(this@MainActivity, SettingsActivity::class.java)) }
@@ -300,9 +321,47 @@ class MainActivity : Activity() {
         val running = PetOverlayService.isRunning
         overlayStatus.text = getString(if (running) R.string.service_running else R.string.service_not_running)
         overlayButton.text = getString(if (running) R.string.btn_stop_overlay else R.string.btn_start_overlay)
+        updatePermissionStatus()
+    }
+
+    private fun updatePermissionStatus() {
+        val overlayOk = Settings.canDrawOverlays(this)
+        val notifOk = Build.VERSION.SDK_INT < 33 ||
+            checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED
+        val batteryOk = runCatching {
+            val pm = getSystemService(Context.POWER_SERVICE) as PowerManager
+            pm.isIgnoringBatteryOptimizations(packageName)
+        }.getOrDefault(false)
+        val yes = getString(R.string.status_granted)
+        val no = getString(R.string.status_missing)
+        permissionStatus.text = getString(R.string.health_overlay) + ": " + (if (overlayOk) yes else no) +
+            "\n" + getString(R.string.health_notifications) + ": " + (if (notifOk) yes else no) +
+            "\n" + getString(R.string.health_battery) + ": " + (if (batteryOk) yes else no)
+    }
+
+    private fun requestIgnoreBatteryOptimizations() {
+        val pm = getSystemService(Context.POWER_SERVICE) as PowerManager
+        if (pm.isIgnoringBatteryOptimizations(packageName)) {
+            Toast.makeText(this, R.string.health_battery_done, Toast.LENGTH_SHORT).show()
+            updatePermissionStatus()
+            return
+        }
+        val request = Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS, Uri.parse("package:" + packageName))
+        if (runCatching { startActivity(request) }.isFailure) {
+            runCatching { startActivity(Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS)) }
+        }
+    }
+
+    private fun showHyperosGuide() {
+        AlertDialog.Builder(this)
+            .setTitle(R.string.hyperos_guide_title)
+            .setMessage(R.string.hyperos_guide_body)
+            .setPositiveButton("OK", null)
+            .show()
     }
 
     private fun maybeAutoSpeak() {
+        if (PetOverlayService.isRunning) return
         val state = engine.state
         if (state.behavior != Behavior.TALK) return
         val now = System.currentTimeMillis()
@@ -328,7 +387,9 @@ class MainActivity : Activity() {
         bubbleView.visibility = View.VISIBLE
         handler.removeCallbacks(hideBubble)
         handler.postDelayed(hideBubble, 4200L)
-        if (settings.soundOn && !settings.isQuietNow(com.vudev.pet.core.PetClock.hourOfDay(now))) {
+        if (!PetOverlayService.isRunning && settings.soundOn &&
+            !settings.isQuietNow(com.vudev.pet.core.PetClock.hourOfDay(now))
+        ) {
             speech.speak(phrase)
         }
     }
@@ -389,13 +450,16 @@ class MainActivity : Activity() {
         if (pendingOverlayStart) {
             pendingOverlayStart = false
             if (Settings.canDrawOverlays(this)) startOverlayService()
+        } else if (settings.overlayEnabled && !PetOverlayService.isRunning && Settings.canDrawOverlays(this)) {
+            // Tự phục hồi overlay nếu tiến trình từng bị hệ thống kill (M5).
+            startOverlayService()
         }
         engine.setName(settings.petName)
         engine.setPersonality(settings.personality, System.currentTimeMillis())
         petView.look = PetLooks.byId(settings.lookId)
         applyVisual()
         handler.post(ticker)
-        greetOnce()
+        handler.postDelayed({ greetOnce() }, 700L)
     }
 
     override fun onPause() {

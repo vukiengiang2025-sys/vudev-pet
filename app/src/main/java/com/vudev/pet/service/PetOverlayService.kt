@@ -30,6 +30,8 @@ import com.vudev.pet.core.Interaction
 import com.vudev.pet.core.PetClock
 import com.vudev.pet.core.PetEngine
 import com.vudev.pet.core.PetState
+import com.vudev.pet.core.ReminderKind
+import com.vudev.pet.core.ReminderPolicy
 import com.vudev.pet.core.SpeechContext
 import com.vudev.pet.core.SpeechSelector
 import com.vudev.pet.data.PetRepository
@@ -74,8 +76,8 @@ class PetOverlayService : Service() {
     private var targetX: Float? = null
     private var screenOn = true
     private var lastSaveAt = 0L
-    private var lastHungryNotifiedAt = 0L
     private var lastAutoSayAt = 0L
+    private val reminders = ReminderPolicy()
     private var lastMood: Int = -1
     private var lastWalking = false
 
@@ -102,7 +104,7 @@ class PetOverlayService : Service() {
                 save()
                 lastSaveAt = now
             }
-            maybeNotifyHungry(now)
+            maybeRemind(now)
             handler.postDelayed(this, 1_000L)
         }
     }
@@ -504,14 +506,16 @@ class PetOverlayService : Service() {
         stopSelf()
     }
 
-    private fun maybeNotifyHungry(now: Long) {
-        val needs = engine.state.needs
-        if (needs.hunger < 85.0) return
-        if (now - lastHungryNotifiedAt < 6L * 60L * 60L * 1000L) return
+    private fun maybeRemind(now: Long) {
         val hour = PetClock.hourOfDay(now)
-        if (settings.isQuietNow(hour)) return
-        lastHungryNotifiedAt = now
-        PetNotifications.hungry(this, engine.state.name)
+        val quiet = settings.isQuietNow(hour)
+        val name = engine.state.name
+        when (reminders.poll(engine.state, now, quiet)) {
+            ReminderKind.HUNGRY -> PetNotifications.hungry(this, name)
+            ReminderKind.SAD -> PetNotifications.sad(this, name)
+            ReminderKind.NEGLECTED -> PetNotifications.neglected(this, name)
+            null -> Unit
+        }
     }
 
     private fun save() {

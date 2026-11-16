@@ -78,4 +78,28 @@
     <string name="mood_surprised">Ngạc nhiên</string>
     <string name="mood_sulk">Dỗi</string>
     <string name="bubble_hint">Nói gì đó</string>
+    <string name="health_check_title">Kiểm tra quyền và độ ổn định</string>
+    <string name="health_overlay">Hiển thị trên ứng dụng khác</string>
+    <string name="health_notifications">Thông báo nhắc chăm sóc</string>
+    <string name="health_battery">Miễn tối ưu pin</string>
+    <string name="status_granted">Đã bật</string>
+    <string name="status_missing">Chưa bật</string>
+    <string name="health_battery_done">Đã miễn tối ưu pin</string>
+    <string name="btn_disable_battery_opt">Tắt tối ưu pin cho VUDEV PET</string>
+    <string name="hyperos_guide_button">Hướng dẫn cho HyperOS/MIUI</string>
+    <string name="hyperos_guide_title">Giữ thú cưng luôn trên màn hình</string>
+    <string name="hyperos_guide_body">Trên HyperOS/MIUI, hệ thống hay tắt ứng dụng chạy nền. Bạn vào Cài đặt → Ứng dụng → VUDEV PET và bật:
+
+1. Quyền hiển thị trên ứng dụng khác (đã có nút ở trên).
+2. Tự khởi chạy (Autostart).
+3. Không giới hạn pin / Không tối ưu pin.
+4. Khoá ứng dụng trong đa nhiệm (tuỳ chọn).
+
+Khi máy khởi động lại, VUDEV PET sẽ gửi một thông báo mời bạn mở lại; mở app là thú tự trở lại màn hình.</string>
+    <string name="notif_sad_title">Thú cưng đang buồn</string>
+    <string name="notif_sad_text">%1$s hơi buồn, chơi với bạn ấy một chút nhé.</string>
+    <string name="notif_neglect_title">Thú cưng nhớ bạn</string>
+    <string name="notif_neglect_text">%1$s đã ở một mình lâu rồi, ghé thăm nhé.</string>
+    <string name="notif_boot_title">Thú cưng đang chờ bạn</string>
+    <string name="notif_boot_text">Mở VUDEV PET để đưa thú cưng trở lại màn hình.</string>
 </resources>

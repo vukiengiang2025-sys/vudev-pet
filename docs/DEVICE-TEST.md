@@ -32,11 +32,26 @@ APK: bản debug build từ commit "polish interaction" (trước khi cập nh�
 4. Mắt có thể kẹt trạng thái nhắm sau khi hết buồn ngủ → reset chớp mắt khi rời mood SLEEPY.
 5. Chưa có lời chào khi mở app → thêm greeting theo buổi/trạng thái một lần mỗi phiên.
 
+## Kiểm thử bổ sung M5 (18:16-18:30)
+
+| Hạng mục | Kết quả |
+|---|---|
+| Cài lại bản polish | Cài thành công; MIUI đã nhớ lựa chọn nên không hỏi lại hộp thoại USB |
+| Tự phục hồi overlay | Force-stop app rồi mở lại: MainActivity tự bật lại PetOverlayService (log starting overlay service, canDraw=true) mà không cần bấm nút |
+| Giữ trạng thái | Cho ăn, force-stop, mở lại: total=1, hunger=0 vẫn giữ; không crash |
+| Thông báo đói | id=1002, channel pet_reminder, text: Bông đang đói bụng, bạn cho ăn nhé. |
+| Thông báo buồn | id=1004, channel pet_reminder (khi vui <= 30) |
+| Thông báo bỏ bê | id=1005, channel pet_reminder (khi vui <= 25 và hơn 24 giờ không tương tác) |
+| Thông báo sau khởi động | id=1006 do BootReceiver tạo; shell không gửi được BOOT_COMPLETED chuẩn trên máy này nên chưa test khởi động lại thật |
+| Lặp giọng đọc | Đã sửa: chỉ một engine TTS đọc khi overlay đang chạy; greeting trễ 700 ms chờ TTS khởi tạo |
+| Màn hình kiểm tra quyền | Có trong app: quyền overlay, thông báo, miễn tối ưu pin |
+
+Ghi chú: trên Android 16, appops SYSTEM_ALERT_WINDOW phải set theo UID (appops set --uid com.vudev.pet SYSTEM_ALERT_WINDOW allow) thì Settings.canDrawOverlays mới trả true; người dùng bật qua màn hình hệ thống không bị ảnh hưởng.
 ## Chưa kiểm tra được (blocker hiện tại)
 
-- Điện thoại đã bị khoá màn hình (cần PIN/vân tay) sau bài test tắt/mở màn hình; adb không thể mở khoá.
-- Vì lần cài lại bản polish cần xác nhận hộp thoại MIUI trên màn hình khoá, hiện app đã bị gỡ (uninstall) và chưa cài lại bản mới.
-- Chưa test: khôi phục sau force-stop/khởi động lại, thông báo khi đói (cần hạ ngưỡng hoặc chờ), đo pin nhiều giờ, Android 11-13.
+- Khôi phục sau khởi động lại máy thật: chưa test (shell không gửi được BOOT_COMPLETED; cần khởi động lại máy thật).
+- Đo pin nhiều giờ và máy Android 11-13: chưa test.
+- Hộp thoại xác nhận cài adb của MIUI: đã xử lý; lần cài đặt sau hệ thống nhớ lựa chọn.
 
 ## Cách kiểm tra lại khi mở khoá máy
 

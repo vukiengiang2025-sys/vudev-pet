@@ -1,16 +1,11 @@
 # BLOCKERS — VUDEV PET
 
-Cập nhật: 2026-11-16 17:30.
+Cập nhật: 2026-11-16 18:35.
 
-## Đang chặn (tạm thời)
-1. Điện thoại Redmi 15 5G đang khoá màn hình (cần PIN/vân tay). Sau bài test tắt/mở màn hình, adb không thể mở khoá. Vì vậy:
-   - App đã bị gỡ trong lần cài lại bản polish; chưa cài lại được bản mới.
-   - Chưa chạy được hộp thoại xác nhận cài đặt MIUI "Cài đặt ứng dụng này qua USB?".
-   - Không thể tiếp tục test persistence sau force-stop, thông báo đói, đo pin.
-   - Cách xử lý: mở khoá điện thoại, sau đó chạy lại lệnh cài trong docs/DEVICE-TEST.md hoặc tải APK từ Release.
+## Không có blocker chặn phát triển
+- Điện thoại đã kết nối và mở khoá lại; app đã cài, overlay/TTS/thông báo/tự phục hồi đã kiểm tra trên máy thật.
 
-2. HyperOS chặn cài adb cho tới khi người dùng xác nhận trên màn hình (AdbInstallActivity). Đây là hành vi của hệ thống, không phải lỗi app. Khi màn hình mở khoá, bấm "Cài đặt" trong hộp thoại là cài được.
-
-## Không có blocker kỹ thuật khác
-- Code, build, unit test, CI và release APK đều xanh.
-- Không cần mạng, API key hay quyền hệ thống.
+## Việc chưa kiểm chứng (không chặn)
+1. Khởi động lại máy thật để xác nhận BootReceiver + thông báo mời mở app (code có, thông báo tạo được, chưa reboot).
+2. Đo pin nhiều giờ (mới đo PSS 55-61 MB; pin cần kịch bản dài).
+3. Máy Android 11-13 (mới test Android 16/HyperOS).
