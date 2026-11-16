@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">VUDEV PET</string>
+    <string name="tagline">Một người bạn nhỏ sống trên màn hình của bạn</string>
+
+    <string name="onboarding_title">Chào bạn, mình là thú cưng của bạn</string>
+    <string name="onboarding_body">Mình sẽ sống trên màn hình, tự đi lại, ngủ, chơi và nói chuyện với bạn. Mình không cần mạng, không cần tài khoản, không đọc dữ liệu của bạn.</string>
+    <string name="overlay_permission_title">Cho mình ra màn hình nhé</string>
+    <string name="overlay_permission_body">Android cần bạn bật quyền "Hiển thị trên ứng dụng khác" để mình có thể ở trên màn hình. Mình chỉ vẽ chính mình, không chạm vào ứng dụng khác.</string>
+    <string name="btn_grant_overlay">Bật quyền hiển thị</string>
+    <string name="btn_start_overlay">Cho mình ra màn hình</string>
+    <string name="btn_stop_overlay">Ẩn mình đi</string>
+    <string name="service_running">Mình đang ở trên màn hình của bạn.</string>
+    <string name="service_not_running">Mình đang ở trong ứng dụng, chưa ra màn hình.</string>
+    <string name="overlay_permission_denied">Chưa có quyền hiển thị. Bạn bật giúp mình trong Cài đặt nhé.</string>
+
+    <string name="needs_title">Tâm trạng hôm nay</string>
+    <string name="need_hunger">Đói bụng</string>
+    <string name="need_happiness">Vui vẻ</string>
+    <string name="need_energy">Năng lượng</string>
+    <string name="need_cleanliness">Sạch sẽ</string>
+    <string name="need_affection">Tình cảm</string>
+
+    <string name="action_feed">Cho ăn</string>
+    <string name="action_pet">Vuốt ve</string>
+    <string name="action_play">Chơi</string>
+    <string name="action_bathe">Tắm</string>
+    <string name="action_status">Trạng thái</string>
+    <string name="action_hide">Ẩn</string>
+    <string name="action_settings">Cài đặt</string>
+    <string name="action_open">Mở ứng dụng</string>
+    <string name="action_close">Đóng</string>
+    <string name="action_save">Lưu</string>
+    <string name="action_back">Quay lại</string>
+
+    <string name="settings_title">Cài đặt</string>
+    <string name="name_label">Tên của mình</string>
+    <string name="look_label">Hình dáng</string>
+    <string name="personality_label">Tính cách</string>
+    <string name="size_label">Kích thước trên màn hình</string>
+    <string name="opacity_label">Độ đậm</string>
+    <string name="sound_label">Đọc thành tiếng</string>
+    <string name="bubble_label">Hiện bong bóng nói chuyện</string>
+    <string name="quiet_label">Giờ yên tĩnh (không đọc, không làm phiền)</string>
+    <string name="quiet_start_label">Bắt đầu</string>
+    <string name="quiet_end_label">Kết thúc</string>
+    <string name="saved">Đã lưu</string>
+    <string name="about_title">Về VUDEV PET</string>
+    <string name="about_body">VUDEV PET là thú cưng ảo chạy hoàn toàn trên máy, không mạng, không tài khoản, không thu thập dữ liệu. Phiên bản 0.1.0 (MVP).</string>
+    <string name="reset_pet">Đặt lại thú cưng</string>
+    <string name="reset_confirm_title">Đặt lại thú cưng?</string>
+    <string name="reset_confirm_body">Mọi nhu cầu, ký ức và tên sẽ trở về ban đầu. Bạn chắc chắn chứ?</string>
+    <string name="reset_yes">Đặt lại</string>
+    <string name="cancel">Huỷ</string>
+
+    <string name="personality_playful">Tinh nghịch</string>
+    <string name="personality_shy">Nhút nhát</string>
+    <string name="personality_lazy">Lười biếng</string>
+    <string name="personality_friendly">Thân thiện</string>
+    <string name="personality_curious">Tò mò</string>
+
+    <string name="channel_service">Thú cưng đang chạy</string>
+    <string name="channel_reminder">Nhắc nhở chăm sóc</string>
+    <string name="notif_service_title">VUDEV PET đang ở trên màn hình</string>
+    <string name="notif_service_text">Chạm để mở ứng dụng</string>
+    <string name="notif_hungry_title">Thú cưng đang đói</string>
+    <string name="notif_hungry_text">%1$s đang đói bụng, bạn cho ăn nhé.</string>
+
+    <string name="speech_prefix">%1$s: %2$s</string>
+    <string name="status_title">Trạng thái</string>
+    <string name="mood_calm">Bình thản</string>
+    <string name="mood_happy">Vui vẻ</string>
+    <string name="mood_excited">Phấn khích</string>
+    <string name="mood_curious">Tò mò</string>
+    <string name="mood_sad">Buồn</string>
+    <string name="mood_sleepy">Buồn ngủ</string>
+    <string name="mood_angry">Cáu</string>
+    <string name="mood_surprised">Ngạc nhiên</string>
+    <string name="mood_sulk">Dỗi</string>
+    <string name="bubble_hint">Nói gì đó</string>
+</resources>

@@ -1,0 +1,9 @@
+*.iml
+.gradle/
+build/
+local.properties
+.idea/
+*.hprof
+.DS_Store
+captures/
+artifacts/*.idsig
