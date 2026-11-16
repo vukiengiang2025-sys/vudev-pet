@@ -27,6 +27,12 @@ Nhóm test:
 
 Kết quả: BUILD SUCCESSFUL; APK app/build/outputs/apk/debug/app-debug.apk (khoảng 0.94-0.96 MB).
 
+## Build release (kiểm tra biên dịch)
+
+    ./gradlew :app:assembleRelease
+
+APK: app/build/outputs/apk/release/app-release-unsigned.apk (~0.72 MB). Bản này chưa ký; cần keystore khi phát hành thật.
+
 ## CI (GitHub Actions)
 
 Workflow .github/workflows/build-apk.yml: chmod gradlew, JDK 17, cài platform 34/build-tools 34, cache Gradle, chạy :petcore:test, :app:assembleDebug, upload artifact vudev-pet-debug, và cập nhật release latest-apk trên mỗi push nhánh main.

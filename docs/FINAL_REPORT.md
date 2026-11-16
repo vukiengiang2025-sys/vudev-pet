@@ -28,7 +28,7 @@ Cập nhật: 2026-11-16 14:45. Trạng thái: mã nguồn + build + unit test h
 
 ## D. Hiệu năng
 - Kích thước APK: khoảng 0.94-0.96 MB (bản build cuối có thêm log chẩn đoán).
-- Đo trên Redmi 15 5G: PSS 55.976 KB trước và 61.307 KB sau khi chạy overlay + tương tác (RSS 138-145 MB) — đạt mục tiêu PSS dưới 80 MB.
+- Đo trên Redmi 15 5G: overlay-only PSS 57.257 KB, sau tương tác 55.976-61.307 KB (RSS 134-145 MB) — đạt mục tiêu overlay dưới 80 MB. Khi mở màn hình chăm sóc, PSS 91-102 MB do activity + renderer + TTS; đây là điểm cần tối ưu nếu muốn cam kết 80 MB cho toàn app.
 - FPS và pin dài hạn: chưa đo được (điện thoại bị khoá màn hình khi đang test); thiết kế 15 FPS khi nghỉ, tăng khi đi/tương tác, dừng vẽ khi màn hình tắt.
 
 ## E. Lỗi còn tồn tại
@@ -36,6 +36,7 @@ Cập nhật: 2026-11-16 14:45. Trạng thái: mã nguồn + build + unit test h
 2. App hiện đã bị gỡ trong lần cài lại; cần mở khoá điện thoại để cài bản polish cuối và chạy nốt test persistence/thông báo/pin.
 3. TTS tiếng Việt phụ thuộc gói giọng của máy; đã xử lý fallback hiện chữ; trên máy test giọng Việt hoạt động.
 4. Đã có tự phục hồi overlay khi mở lại app và BootReceiver gửi thông báo sau reboot (chưa test reboot thật); widget và mini-game đã có; widget chưa thêm lên màn hình chính để chụp.
+5. Release APK unsigned đã build được nhưng chưa có keystore phát hành; bản bàn giao hiện tại là APK debug (ký debug).
 
 ## F. Bàn giao
 - Source: /home/vukgg04/vscode/vudev-pet; repo GitHub: https://github.com/vukiengiang2025-sys/vudev-pet

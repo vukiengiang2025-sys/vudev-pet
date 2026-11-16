@@ -13,7 +13,7 @@ Cập nhật: 2026-11-16 14:55 (Asia/Ho_Chi_Minh).
 | M4 — Tương tác và nói | XONG + đã kiểm tra máy thật | TTS vi-VN ready=true, menu đủ 8 mục, cho ăn/chơi/vuốt/kéo hoạt động; APK ~0.96 MB |
 | M5 — Onboarding/thông báo/phục hồi | XONG phần lớn, đã kiểm tra máy | Màn hình kiểm tra quyền (overlay/thông báo/pin), nút miễn tối ưu pin, hướng dẫn HyperOS, nhắc đói/buồn/bỏ bê, tự phục hồi overlay sau force-stop; boot notification có code, chưa test khởi động lại thật |
 | M6 — Widget/mini-game/nhân vật | XONG phần lớn | Mini-game hứng bánh 45 giây, tạm ẩn/phục hồi overlay, widget provider đã đăng ký, 5 hình dáng; widget chưa thêm lên màn hình chính |
-| M7 — Stress test/phát hành | chưa làm | Đo pin dài hạn, kiểm tra Android 11-13, release |
+| M7 — Stress test/phát hành | XONG một phần | Stress 20 tương tác + xoay màn hình không crash; CPU nghỉ 0%; overlay-only PSS 57 MB; build release unsigned thành công (0.72 MB); còn đo pin dài hạn, Android 11-13, keystore phát hành |
 
 ## CI / GitHub
 - Repo: https://github.com/vukiengiang2025-sys/vudev-pet
@@ -24,7 +24,7 @@ Cập nhật: 2026-11-16 14:55 (Asia/Ho_Chi_Minh).
 - Đã kiểm tra APK release bằng aapt: package com.vudev.pet, label VUDEV PET, minSdk 26, targetSdk 34, chỉ 4 quyền (SYSTEM_ALERT_WINDOW, POST_NOTIFICATIONS, FOREGROUND_SERVICE, FOREGROUND_SERVICE_SPECIAL_USE) — không có INTERNET, không Accessibility.
 
 ## Việc đang làm
-- Đã kiểm tra M2/M4/M5/M6 trên Redmi 15 5G (xem docs/DEVICE-TEST.md). Chuẩn bị M7: stress test, đo pin, release.
+- Đã kiểm tra M2/M4/M5/M6 và stress cơ bản M7 trên Redmi 15 5G (xem docs/DEVICE-TEST.md). Việc còn lại: đo pin dài hạn, thử Android 11-13, tạo keystore release nếu muốn phát hành chính thức.
 
 ## Việc tiếp theo
 1. Cài APK từ release, cấp quyền overlay + thông báo; kiểm tra thú hiện trên màn hình, tương tác, TTS.

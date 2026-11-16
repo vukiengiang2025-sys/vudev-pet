@@ -56,11 +56,16 @@ jobs:
       - name: Assemble debug APK
         run: ./gradlew -Dorg.gradle.jvmargs=-Xmx2g --max-workers=2 :app:assembleDebug
 
+      - name: Assemble unsigned release APK
+        run: ./gradlew -Dorg.gradle.jvmargs=-Xmx2g --max-workers=2 :app:assembleRelease
+
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: vudev-pet-debug
-          path: app/build/outputs/apk/debug/*.apk
+          path: |
+            app/build/outputs/apk/debug/*.apk
+            app/build/outputs/apk/release/*.apk
           if-no-files-found: error
 
       - name: Publish rolling APK release

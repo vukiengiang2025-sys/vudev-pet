@@ -57,10 +57,19 @@ Ghi chú: trên Android 16, appops SYSTEM_ALERT_WINDOW phải set theo UID (appo
 | Phần thưởng lưu đúng | Trạng thái sau game: last_play khác 0, total tăng, happiness tăng; đã sửa lỗi service ghi đè trạng thái cũ bằng cách nạp lại từ đĩa khi resume |
 | 5 hình dáng | Bông xanh, Bạc hà, Đào, Oải hương, Nắng (dữ liệu, không cần art) |
 | Widget | Provider com.vudev.pet.widget.PetWidgetProvider đã đăng ký với AppWidgetManager (provider id 204); chưa thêm lên màn hình chính để chụp do cần thao tác tay |
+## Kiểm thử bổ sung M7 (18:37-18:42)
+
+| Hạng mục | Kết quả |
+|---|---|
+| Stress tương tác | 20 lần chạm liên tiếp + xoay ngang rồi dọc: không crash, service vẫn foreground |
+| Bộ nhớ khi chỉ có overlay | PSS 57.257 KB (RSS 134.768 KB) — đạt mục tiêu dưới 80 MB |
+| Bộ nhớ khi mở màn hình chăm sóc | PSS 91-102 MB (activity + renderer + TTS) — cao hơn mục tiêu overlay; cần tối ưu ở M7 nếu muốn giảm |
+| CPU khi nghỉ | 0% user + 0% kernel (đo bằng dumpsys cpuinfo) |
+| Build release | assembleRelease thành công sau khi tắt lintVitalRelease (AGP 8.3 + Gradle 9); APK unsigned khoảng 0.72 MB; chưa ký phát hành |
 ## Chưa kiểm tra được (blocker hiện tại)
 
 - Khôi phục sau khởi động lại máy thật: chưa test (shell không gửi được BOOT_COMPLETED; cần khởi động lại máy thật).
-- Đo pin nhiều giờ, widget trên màn hình chính (thao tác tay) và máy Android 11-13: chưa test.
+- Đo pin nhiều giờ, widget trên màn hình chính (thao tác tay), máy Android 11-13 và ký release: chưa test.
 - Hộp thoại xác nhận cài adb của MIUI: đã xử lý; lần cài đặt sau hệ thống nhớ lựa chọn.
 
 ## Cách kiểm tra lại khi mở khoá máy
