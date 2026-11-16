@@ -23,17 +23,19 @@ Cập nhật: 2026-11-16 14:45. Trạng thái: mã nguồn + build + unit test h
 ## C. Kiểm thử
 - Unit test petcore: 44 test, 0 lỗi.
 - Build: petcore, renderer, app đều biên dịch thành công; APK debug khoảng 0.96 MB.
-- Chưa chạy: instrumentation test và kiểm thử thủ công trên máy thật (thiết bị mất kết nối adb lúc 14:34).
+- Đã kiểm thử trên Redmi 15 5G (Android 16/HyperOS): mở app, renderer, TTS tiếng Việt (ready=true), overlay trên màn hình chính, chạm, vuốt ve, kéo thả, menu 8 mục, cho ăn, chơi, tắt/mở màn hình, lưu trạng thái JSON. Chi tiết: docs/DEVICE-TEST.md và docs/screenshots/.
+- Chưa chạy: instrumentation test; persistence sau force-stop/khởi động lại; thông báo đói; đo pin dài hạn (điện thoại bị khoá màn hình nên dừng giữa chừng).
 
 ## D. Hiệu năng
-- Kích thước APK: 959.010 byte (khoảng 0.94 MiB).
-- RAM/FPS/pin: chưa đo trên thiết bị; thiết kế mục tiêu RAM dưới 80 MB, 15 FPS khi nghỉ, 60 FPS khi đi/tương tác, dừng vẽ khi màn hình tắt.
+- Kích thước APK: khoảng 0.94-0.96 MB (bản build cuối có thêm log chẩn đoán).
+- Đo trên Redmi 15 5G: PSS 55.976 KB trước và 61.307 KB sau khi chạy overlay + tương tác (RSS 138-145 MB) — đạt mục tiêu PSS dưới 80 MB.
+- FPS và pin dài hạn: chưa đo được (điện thoại bị khoá màn hình khi đang test); thiết kế 15 FPS khi nghỉ, tăng khi đi/tương tác, dừng vẽ khi màn hình tắt.
 
 ## E. Lỗi còn tồn tại
-1. Chưa xác minh overlay và tương tác trên HyperOS/Android 16 (thiết bị mất kết nối). Mức độ: cao với nghiệm thu M2/M4, không ảnh hưởng build.
-2. TTS tiếng Việt phụ thuộc gói giọng của máy; đã xử lý fallback hiện chữ nhưng chưa thử trên máy.
-3. Chưa có khôi phục overlay sau khởi động lại máy (dự kiến M5).
-4. Chưa có widget/mini-game (M6).
+1. Trong lúc test phát hiện 5 lỗi nhỏ (menu/bong bóng quá trong suốt, thú chạy khi đang kéo, tự nói quá dày, mắt kẹt nhắm sau buồn ngủ, thiếu lời chào) — đã sửa trong commit polish; bản sửa chưa được cài lại do điện thoại khoá màn hình.
+2. App hiện đã bị gỡ trong lần cài lại; cần mở khoá điện thoại để cài bản polish cuối và chạy nốt test persistence/thông báo/pin.
+3. TTS tiếng Việt phụ thuộc gói giọng của máy; đã xử lý fallback hiện chữ; trên máy test giọng Việt hoạt động.
+4. Chưa có khôi phục overlay sau khởi động lại máy (M5); chưa có widget/mini-game (M6).
 
 ## F. Bàn giao
 - Source: /home/vukgg04/vscode/vudev-pet; repo GitHub: https://github.com/vukiengiang2025-sys/vudev-pet
@@ -42,7 +44,8 @@ Cập nhật: 2026-11-16 14:45. Trạng thái: mã nguồn + build + unit test h
 - Artifact CI: vudev-pet-debug (tab Actions).
 - Build: export JAVA_HOME trỏ JDK 17, ANDROID_HOME trỏ SDK, chạy ./gradlew :petcore:test :app:assembleDebug.
 - Cài: adb install -r app-debug.apk; hoặc tải APK từ Release.
-- Kiểm thử trên Redmi: bật quyền Hiển thị trên ứng dụng khác, bật Tự khởi chạy và Không giới hạn pin, mở app bấm "Cho mình ra màn hình".
+- Kiểm thử trên Redmi: bật quyền Hiển thị trên ứng dụng khác, bật Tự khởi chạy và Không giới hạn pin, mở app bấm "Cho mình ra màn hình". Trên HyperOS, lần cài qua adb sẽ hiện hộp thoại xác nhận "Cài đặt ứng dụng này qua USB?" — bấm Cài đặt.
+- Báo cáo kiểm thử thiết bị: docs/DEVICE-TEST.md (kèm ảnh chụp trong docs/screenshots/).
 - CI: workflow build-apk xanh (run 43825296152), artifact + release latest-apk đã tạo.
 
 ## G. Việc tiếp theo
