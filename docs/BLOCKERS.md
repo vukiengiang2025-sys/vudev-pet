@@ -1,12 +1,16 @@
 # BLOCKERS — VUDEV PET
 
-Cập nhật: 2026-11-16 14:45.
+Cập nhật: 2026-11-16 17:30.
 
 ## Đang chặn (tạm thời)
-1. Thiết bị Redmi 15 5G mất kết nối adb ("no devices/emulators found") ngay sau khi cài APK lúc 14:34. Hệ quả: chưa kiểm tra được trên máy thật các mục M2/M4 (thú hiện trên màn hình, kéo/vuốt/chạm/giữ, TTS tiếng Việt, khôi phục trạng thái).
-   - Không chặn code, build và unit test (đã xong).
-   - Cách xử lý: cắm lại cáp USB, bật USB debugging, chấp nhận RSA; hoặc tải APK từ GitHub Release để cài trực tiếp.
-   - Khi có thiết bị: cài APK, chạy appops set com.vudev.pet SYSTEM_ALERT_WINDOW allow, mở app và bấm "Cho mình ra màn hình".
+1. Điện thoại Redmi 15 5G đang khoá màn hình (cần PIN/vân tay). Sau bài test tắt/mở màn hình, adb không thể mở khoá. Vì vậy:
+   - App đã bị gỡ trong lần cài lại bản polish; chưa cài lại được bản mới.
+   - Chưa chạy được hộp thoại xác nhận cài đặt MIUI "Cài đặt ứng dụng này qua USB?".
+   - Không thể tiếp tục test persistence sau force-stop, thông báo đói, đo pin.
+   - Cách xử lý: mở khoá điện thoại, sau đó chạy lại lệnh cài trong docs/DEVICE-TEST.md hoặc tải APK từ Release.
+
+2. HyperOS chặn cài adb cho tới khi người dùng xác nhận trên màn hình (AdbInstallActivity). Đây là hành vi của hệ thống, không phải lỗi app. Khi màn hình mở khoá, bấm "Cài đặt" trong hộp thoại là cài được.
 
 ## Không có blocker kỹ thuật khác
-- Không cần mạng, không cần API key, không cần quyền hệ thống.
+- Code, build, unit test, CI và release APK đều xanh.
+- Không cần mạng, API key hay quyền hệ thống.

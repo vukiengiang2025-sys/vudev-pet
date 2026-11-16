@@ -2,6 +2,7 @@ package com.vudev.pet.speech
 
 import android.content.Context
 import android.speech.tts.TextToSpeech
+import android.util.Log
 import java.util.Locale
 
 /**
@@ -39,10 +40,15 @@ class PetSpeech(context: Context) : TextToSpeech.OnInitListener {
         } else {
             ready = false
         }
+        Log.i("PetSpeech", "tts status=" + status + " langResult=" + result + " vietnamese=" + vietnameseVoice + " ready=" + ready)
     }
 
     fun speak(text: String) {
-        if (!ready || text.isBlank()) return
+        if (!ready || text.isBlank()) {
+            Log.i("PetSpeech", "skip speak ready=" + ready + " blank=" + text.isBlank())
+            return
+        }
+        Log.i("PetSpeech", "speak: " + text)
         runCatching { tts?.speak(text, TextToSpeech.QUEUE_FLUSH, null, "vudev-pet") }
     }
 

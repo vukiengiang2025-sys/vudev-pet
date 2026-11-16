@@ -8,9 +8,9 @@ Cập nhật: 2026-11-16 14:55 (Asia/Ho_Chi_Minh).
 |---|---|---|
 | M0 — Nền dự án | XONG | 3 module Gradle build được: petcore, renderer, app; tài liệu AUDIT/ARCHITECTURE/DECISIONS |
 | M1 — Renderer | XONG (code + build) | PetRenderer/PetView: bóng, mắt, miệng, chớp mắt, 9 mood, hạt hiệu ứng |
-| M2 — Overlay | XONG (code + build), chờ kiểm tra máy | PetOverlayService: overlay, kéo thả, đi lại, ẩn/hiện, menu; chưa chạy trên máy do mất adb |
+| M2 — Overlay | XONG + đã kiểm tra máy thật | Overlay, kéo thả, chạm, vuốt, menu, di chuyển, tắt/mở màn hình đều hoạt động trên Redmi 15 5G |
 | M3 — Pet Brain | XONG | 44 unit test xanh; needs/emotion/behavior/personality/memory/time/engine |
-| M4 — Tương tác và nói | XONG (code + build), chờ kiểm tra máy | Menu chăm sóc, bong bóng, TTS vi-VN, settings, giờ yên tĩnh; APK 0.94-0.96 MB |
+| M4 — Tương tác và nói | XONG + đã kiểm tra máy thật | TTS vi-VN ready=true, menu đủ 8 mục, cho ăn/chơi/vuốt/kéo hoạt động; APK ~0.96 MB |
 | M5–M7 | chưa làm | Sau nghiệm thu MVP |
 
 ## CI / GitHub
@@ -22,7 +22,7 @@ Cập nhật: 2026-11-16 14:55 (Asia/Ho_Chi_Minh).
 - Đã kiểm tra APK release bằng aapt: package com.vudev.pet, label VUDEV PET, minSdk 26, targetSdk 34, chỉ 4 quyền (SYSTEM_ALERT_WINDOW, POST_NOTIFICATIONS, FOREGROUND_SERVICE, FOREGROUND_SERVICE_SPECIAL_USE) — không có INTERNET, không Accessibility.
 
 ## Việc đang làm
-- Chờ kết nối lại adb để cài và kiểm tra trên Redmi 15 5G (overlay, kéo/vuốt/chạm/giữ, TTS, khôi phục trạng thái).
+- Đã kiểm tra M2/M4 trên Redmi 15 5G (xem docs/DEVICE-TEST.md). Đang chờ mở khoá điện thoại để cài bản polish cuối và test persistence/thông báo.
 
 ## Việc tiếp theo
 1. Cài APK từ release, cấp quyền overlay + thông báo; kiểm tra thú hiện trên màn hình, tương tác, TTS.

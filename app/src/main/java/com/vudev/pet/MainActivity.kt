@@ -57,6 +57,8 @@ class MainActivity : Activity() {
     private val bars = LinkedHashMap<String, ProgressBar>()
     private val values = LinkedHashMap<String, TextView>()
     private var pendingOverlayStart = false
+    private var lastAutoSpeechAt = 0L
+    private var greeted = false
     private var lastAppliedLookId = ""
     private var lastAppliedSize = 0
 
@@ -303,8 +305,19 @@ class MainActivity : Activity() {
     private fun maybeAutoSpeak() {
         val state = engine.state
         if (state.behavior != Behavior.TALK) return
-        if (settings.isQuietNow(com.vudev.pet.core.PetClock.hourOfDay(System.currentTimeMillis()))) return
+        val now = System.currentTimeMillis()
+        if (now - lastAutoSpeechAt < 60_000L) return
+        if (settings.isQuietNow(com.vudev.pet.core.PetClock.hourOfDay(now))) return
+        lastAutoSpeechAt = now
         showBubble(SpeechContext.IDLE_CHAT, force = false)
+    }
+
+    private fun greetOnce() {
+        if (greeted) return
+        greeted = true
+        val now = System.currentTimeMillis()
+        val context = engine.greetingContext(now, 0.0)
+        showBubble(context, force = false)
     }
 
     private fun showBubble(context: SpeechContext, force: Boolean) {
@@ -353,6 +366,7 @@ class MainActivity : Activity() {
     }
 
     private fun startOverlayService() {
+        android.util.Log.i("PetMain", "starting overlay service, canDraw=" + Settings.canDrawOverlays(this))
         requestNotificationPermissionIfNeeded()
         val intent = Intent(this, PetOverlayService::class.java).setAction(PetOverlayService.ACTION_START)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) startForegroundService(intent) else startService(intent)
@@ -381,6 +395,7 @@ class MainActivity : Activity() {
         petView.look = PetLooks.byId(settings.lookId)
         applyVisual()
         handler.post(ticker)
+        greetOnce()
     }
 
     override fun onPause() {

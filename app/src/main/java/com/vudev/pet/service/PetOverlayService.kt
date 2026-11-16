@@ -14,6 +14,7 @@ import android.os.Looper
 import android.os.SystemClock
 import android.provider.Settings
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.GestureDetector
 import android.view.Gravity
 import android.view.MotionEvent
@@ -74,6 +75,7 @@ class PetOverlayService : Service() {
     private var screenOn = true
     private var lastSaveAt = 0L
     private var lastHungryNotifiedAt = 0L
+    private var lastAutoSayAt = 0L
     private var lastMood: Int = -1
     private var lastWalking = false
 
@@ -183,6 +185,7 @@ class PetOverlayService : Service() {
             return
         }
         isRunning = true
+        Log.i(TAG, "overlay service created; size=" + settings.sizeDp + "dp look=" + settings.lookId)
         createPetWindow()
         handler.post(ticker)
     }
@@ -225,6 +228,7 @@ class PetOverlayService : Service() {
         }
         setupTouch(view)
         applyState(true)
+        Log.i(TAG, "pet overlay window added at " + petX + "," + petY + " size=" + sizePx)
     }
 
     private fun setupTouch(view: PetView) {
@@ -248,6 +252,10 @@ class PetOverlayService : Service() {
             whenever(g) { it.onTouchEvent(event) }
             when (event.actionMasked) {
                 MotionEvent.ACTION_DOWN -> {
+                    // Dừng đi lại khi ngón tay chạm vào thú để thú không "chạy trốn" khỏi tay.
+                    handler.removeCallbacks(mover)
+                    targetX = null
+                    lastMoveAt = 0L
                     dragging = false
                     pettingFlips = 0
                     lastMoveDirection = 0
@@ -287,6 +295,8 @@ class PetOverlayService : Service() {
                         interact(Interaction.PET)
                     }
                     pettingFlips = 0
+                    // Tiếp tục hành vi đi lại nếu thú đang trong trạng thái đi dạo/chơi.
+                    applyState(false)
                 }
                 MotionEvent.ACTION_CANCEL -> {
                     dragging = false
@@ -321,11 +331,23 @@ class PetOverlayService : Service() {
             if (state.behavior == Behavior.SULK) view.burst(Effect.ANGER)
         }
         if (behaviorChanged) {
-            when (state.behavior) {
-                Behavior.TALK -> speechSay(SpeechContext.IDLE_CHAT, forceBubble = false)
-                Behavior.SULK -> speechSay(SpeechContext.SAD, forceBubble = false)
-                Behavior.SLEEP -> view.burst(Effect.ZZZ)
-                else -> Unit
+            val now = System.currentTimeMillis()
+            // Tự nói tối đa mỗi 60 giây để không spam giọng đọc.
+            if (now - lastAutoSayAt > 60_000L) {
+                when (state.behavior) {
+                    Behavior.TALK -> {
+                        lastAutoSayAt = now
+                        speechSay(SpeechContext.IDLE_CHAT, forceBubble = false)
+                    }
+                    Behavior.SULK -> {
+                        lastAutoSayAt = now
+                        speechSay(SpeechContext.SAD, forceBubble = false)
+                    }
+                    Behavior.SLEEP -> view.burst(Effect.ZZZ)
+                    else -> Unit
+                }
+            } else if (state.behavior == Behavior.SLEEP) {
+                view.burst(Effect.ZZZ)
             }
         }
     }
@@ -540,6 +562,7 @@ class PetOverlayService : Service() {
         runCatching { menu?.let { wm?.removeView(it) } }
         speech.shutdown()
         stopForeground(true)
+        Log.i(TAG, "overlay service destroyed")
         super.onDestroy()
     }
 
@@ -547,19 +570,20 @@ class PetOverlayService : Service() {
 
     private fun bubbleBackground(): GradientDrawable = GradientDrawable().apply {
         cornerRadius = dp(16).toFloat()
-        setColor(Color.parseColor("#F2FFFFFF"))
+        setColor(Color.WHITE)
         setStroke(dp(1), Color.parseColor("#DCE3F5"))
     }
 
     private fun menuBackground(): GradientDrawable = GradientDrawable().apply {
         cornerRadius = dp(20).toFloat()
-        setColor(Color.parseColor("#F7FFFFFF"))
+        setColor(Color.WHITE)
         setStroke(dp(1), Color.parseColor("#DCE3F5"))
     }
 
     private fun dp(value: Int): Int = (value * resources.displayMetrics.density).toInt()
 
     companion object {
+        private const val TAG = "PetOverlay"
         const val ACTION_START = "com.vudev.pet.action.START"
         const val ACTION_STOP = "com.vudev.pet.action.STOP"
         const val ACTION_CONFIG_CHANGED = "com.vudev.pet.action.CONFIG_CHANGED"

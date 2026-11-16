@@ -111,6 +111,10 @@ class PetView @JvmOverloads constructor(
         // Chớp mắt: 160 ms, cách nhau 2.5-6 giây, không chớp khi buồn ngủ/đang nhắm.
         if (visual.mood == Mood.SLEEPY) {
             blink = 1f
+        } else if (blink >= 0.99f && !blinking) {
+            // Vừa thức dậy sau mood buồn ngủ: mở mắt lại thay vì kẹt trạng thái nhắm.
+            blink = 0f
+            nextBlinkAtMs = nowMs + 2_000L + random.nextInt(3_000)
         } else if (!blinking && nowMs >= nextBlinkAtMs) {
             blinking = true
             blinkStartMs = nowMs
